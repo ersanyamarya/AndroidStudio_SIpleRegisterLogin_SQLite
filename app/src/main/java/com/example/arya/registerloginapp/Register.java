@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+//Sanyam Arya
 public class Register extends Activity {
     EditText etName, etEmail, etPhone, etPassword;
     Button btSubmit, btLogin;
