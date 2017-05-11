@@ -4,4 +4,4 @@ Simple Login And Registration app using local DataBase
 -> Login Dialog
 -> Exit Control
 -> SQLite Database
--> Reatins logged user
+-> Retains logged user
