@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorBlackBackground">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:textColor="@color/colorTextWhite"
+        android:padding="5dp"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="Are you sure\nYou want to logout ?"/>
+    <Button
+        android:id="@+id/btYes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@android:color/holo_red_light"
+        android:padding="5dp"
+        android:text="Yes"
+        android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/btNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@android:color/holo_orange_dark"
+        android:padding="5dp"
+        android:text="No"
+        android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/btExit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@android:color/holo_green_light"
+        android:padding="5dp"
+        android:text="Just Exit"
+        android:textSize="25sp" />
+</LinearLayout>
