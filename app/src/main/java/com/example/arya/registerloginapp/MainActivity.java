@@ -15,7 +15,7 @@ import java.util.List;
 
 public class MainActivity extends Activity {
     TextView tvShow, tvDataBase;
-    Button btLogout;
+    Button btLogout, btDetails;
     SharedPreferences prefs;
     DatabaseHandler databaseHandler = new DatabaseHandler(this);
     String SaveUName, SavePassword;
@@ -25,6 +25,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tvShow = (TextView) findViewById(R.id.tvShow);
+        btDetails = (Button) findViewById(R.id.btDetails);
         btLogout = (Button) findViewById(R.id.btLogout);
         tvDataBase = (TextView) findViewById(R.id.tvDataBase);
         List<User> users = databaseHandler.getAllUsers();
@@ -43,7 +44,13 @@ public class MainActivity extends Activity {
 
             startActivity(intent);
         }
-        //tvDataBase.setText("Sanyam");
+        btDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               User user = databaseHandler.getUser(SaveUName);
+                tvShow.setText("Welcome " + user.getName().toString());
+            }
+        });
         btLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

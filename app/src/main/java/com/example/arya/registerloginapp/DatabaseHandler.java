@@ -13,11 +13,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "UserManager.db";
-    private static final String TABLE_USER = "user";
-    private static final String COLUMN_USER_ID = "user_id";
-    private static final String COLUMN_USER_NAME = "user_name";
-    private static final String COLUMN_USER_EMAIL = "user_email";
-    private static final String COLUMN_USER_PASSWORD = "user_password";
+    private static final String TABLE_USER = "users";
+    private static final String COLUMN_USER_ID = "id";
+    private static final String COLUMN_USER_NAME = "name";
+    private static final String COLUMN_USER_EMAIL = "email";
+    private static final String COLUMN_USER_PASSWORD = "password";
 
     private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
             + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME + " TEXT,"
@@ -47,6 +47,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(COLUMN_USER_PASSWORD, user.getPassword());
         db.insert(TABLE_USER, null, values);
         db.close();
+    }
+
+    public User getUser(String email) {
+       SQLiteDatabase db = this.getReadableDatabase();
+        User user = new User();
+        user.setName("");
+        Cursor  cursor = db.rawQuery("select * from "+TABLE_USER+" where " + COLUMN_USER_EMAIL + "=" + email + "", null);
+
+        if( cursor.moveToFirst()) {
+
+
+           user.setId(Integer.parseInt(cursor.getString(0)));
+           user.setName(cursor.getString(1));
+           user.setEmail(cursor.getString(2));
+           user.setPassword(cursor.getString(3));
+           return user;
+       }
+       return user;
     }
 
     public List<User> getAllUsers() {
@@ -100,6 +118,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // delete user record by id
         db.delete(TABLE_USER, COLUMN_USER_ID + " = ?",
                 new String[]{String.valueOf(user.getId())});
+        db.close();
+    }
+
+    public void deleteUser(String email) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_USER, COLUMN_USER_EMAIL + " = ?",
+                new String[]{email});
         db.close();
     }
 

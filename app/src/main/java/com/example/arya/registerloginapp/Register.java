@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 //Sanyam Arya
 public class Register extends Activity {
     EditText etName, etEmail, etPhone, etPassword;
@@ -42,13 +43,18 @@ public class Register extends Activity {
             @Override
             public void onClick(View v) {
                 if (checkInputValidity()) {
-                    User user = new User();
-                    user.setName(etName.getText().toString());
-                    user.setEmail(etEmail.getText().toString());
-                    user.setPassword(etPassword.getText().toString());
-                    databaseHandler.addUser(user);
-                    Intent intent = new Intent(Register.this, MainActivity.class);
-                    startActivity(intent);
+                    if (!databaseHandler.checkUser(etEmail.getText().toString().trim())) {
+                        User user = new User();
+                        user.setName(etName.getText().toString());
+                        user.setEmail(etEmail.getText().toString());
+                        user.setPassword(etPassword.getText().toString());
+                        databaseHandler.addUser(user);
+                        Intent intent = new Intent(Register.this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(Register.this, "Email already exists",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
