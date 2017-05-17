@@ -9,6 +9,8 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private String uName;
+    private String phone;
 
     public int getId() {
         return id;
@@ -34,6 +36,14 @@ public class User {
         this.email = email;
     }
 
+    public String getuName() {
+        return uName;
+    }
+
+    public void setuName(String uName) {
+        this.uName = uName;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -41,5 +51,10 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
+    public String getPhone() {
+        return phone;
+    }
+    public void setPhone(String uPhone) {
+        this.phone = uPhone;
+    }
 }

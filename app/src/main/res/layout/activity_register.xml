@@ -15,8 +15,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:padding="5dp"
-        android:textColor="@color/colorTextWhite"
         android:text="! . . Register . . !"
+        android:textColor="@color/colorTextWhite"
         android:textSize="25sp" />
 
     <EditText
@@ -38,6 +38,19 @@
         android:layout_margin="5dp"
         android:layout_weight="1"
         android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:padding="5dp"
+        android:textColor="@color/colorTextWhite"
+        android:textColorHint="@color/colorAccent"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/etUName"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:hint="Username"
         android:inputType="textEmailAddress"
         android:padding="5dp"
         android:textColor="@color/colorTextWhite"

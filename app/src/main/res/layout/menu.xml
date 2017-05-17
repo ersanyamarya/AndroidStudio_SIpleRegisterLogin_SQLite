@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btDel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@android:color/holo_red_dark"
+        android:padding="5dp"
+        android:text="Delete Your Account"
+        android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/btUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@android:color/holo_orange_light"
+        android:padding="5dp"
+        android:text="Update Your Account"
+        android:textSize="25sp" />
+
+</LinearLayout>

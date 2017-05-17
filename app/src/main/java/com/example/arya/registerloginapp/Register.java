@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +16,7 @@ import android.widget.Toast;
 
 //Sanyam Arya
 public class Register extends Activity {
-    EditText etName, etEmail, etPhone, etPassword;
+    EditText etName, etEmail, etPhone, etPassword, etUname;
     Button btSubmit, btLogin;
     DatabaseHandler databaseHandler = new DatabaseHandler(this);
     SharedPreferences prefs;
@@ -35,24 +36,43 @@ public class Register extends Activity {
         setContentView(R.layout.activity_register);
         etName = (EditText) findViewById(R.id.etName);
         etEmail = (EditText) findViewById(R.id.etEmail);
+        etUname = (EditText) findViewById(R.id.etUName);
         etPassword = (EditText) findViewById(R.id.etPassword);
         etPhone = (EditText) findViewById(R.id.etPhone);
         btLogin = (Button) findViewById(R.id.btLogin);
         btSubmit = (Button) findViewById(R.id.btSubmit);
+
+        etUname.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                String[] parts = etEmail.getText().toString().trim().split("@");
+                etUname.setText(parts[0]);
+                return false;
+            }
+        });
         btSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (checkInputValidity()) {
-                    if (!databaseHandler.checkUser(etEmail.getText().toString().trim())) {
+                    if (!databaseHandler.checkUserExistence(etEmail.getText().toString().trim(),
+                            etUname.getText().toString().trim())) {
                         User user = new User();
                         user.setName(etName.getText().toString());
                         user.setEmail(etEmail.getText().toString());
+                        user.setuName(etUname.getText().toString());
+                        user.setPhone(etPhone.getText().toString());
                         user.setPassword(etPassword.getText().toString());
                         databaseHandler.addUser(user);
-                        Intent intent = new Intent(Register.this, MainActivity.class);
-                        startActivity(intent);
+                        etName.setText("");
+                        etEmail.setText("");
+                        etUname.setText("");
+                        etPhone.setText("");
+                        etPassword.setText("");
+                        Toast.makeText(Register.this, "Registered Successfully\nPlease Login",
+                                Toast.LENGTH_SHORT).show();
+
                     } else {
-                        Toast.makeText(Register.this, "Email already exists",
+                        Toast.makeText(Register.this, "Email or User Name already exists",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -67,7 +87,6 @@ public class Register extends Activity {
                 final EditText etEmail = (EditText) dialog.findViewById(R.id.etEmailLogin);
                 final EditText etPassword = (EditText) dialog.findViewById(R.id.etPasswordLogin);
                 Button btLogin = (Button) dialog.findViewById(R.id.btLoginLogin);
-                dialog.setTitle("Enter you data");
                 btLogin.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

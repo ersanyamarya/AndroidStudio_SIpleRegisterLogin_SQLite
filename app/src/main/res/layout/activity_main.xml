@@ -5,19 +5,43 @@
     android:layout_height="match_parent"
     android:background="@drawable/back"
     android:orientation="vertical"
-    android:weightSum="12"
+    android:weightSum="11"
     tools:context="com.example.arya.registerloginapp.MainActivity">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1.5"
+    android:padding="5dp"
+    android:weightSum="10"
+    android:layout_margin="5dp">
+    <ImageButton
+        android:id="@+id/btRoot"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:padding="5dp"
+        android:src="@android:drawable/sym_def_app_icon"
+        android:background="@android:color/transparent"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="5dp"
-        android:layout_weight="1.5"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="8"
         android:gravity="center"
         android:padding="5dp"
         android:text="! . . Home Page . . !"
         android:textColor="@color/colorTextWhite"
         android:textSize="24sp" />
+    <ImageButton
+        android:id="@+id/btMore"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:padding="5dp"
+        android:src="@android:drawable/ic_menu_add"
+        android:background="@android:color/transparent"/>
+
+</LinearLayout>
 
     <TextView
         android:id="@+id/tvShow"
@@ -67,16 +91,7 @@
         android:textSize="24sp" />
 
 
-    <Button
-        android:id="@+id/btDetails"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="5dp"
-        android:layout_weight="1.5"
-        android:background="@color/colorAccent"
-        android:padding="5dp"
-        android:text="Give details"
-        android:textSize="22sp" />
+
 
 </LinearLayout>
 

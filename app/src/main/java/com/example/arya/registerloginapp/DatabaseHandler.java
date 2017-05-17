@@ -17,11 +17,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String COLUMN_USER_ID = "id";
     private static final String COLUMN_USER_NAME = "name";
     private static final String COLUMN_USER_EMAIL = "email";
+    private static final String COLUMN_USER_UNAME = "uName";
+    private static final String COLUMN_USER_PHONE = "phone";
     private static final String COLUMN_USER_PASSWORD = "password";
 
     private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
             + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME + " TEXT,"
-            + COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT" + ")";
+            + COLUMN_USER_UNAME + " TEXT," + COLUMN_USER_EMAIL + " TEXT,"
+            + COLUMN_USER_PHONE + " TEXT,"+ COLUMN_USER_PASSWORD + " TEXT" + ")";
     private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
 
     public DatabaseHandler(Context context) {
@@ -44,51 +47,53 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_USER_NAME, user.getName());
         values.put(COLUMN_USER_EMAIL, user.getEmail());
+        values.put(COLUMN_USER_UNAME, user.getuName());
         values.put(COLUMN_USER_PASSWORD, user.getPassword());
+        values.put(COLUMN_USER_PHONE, user.getPhone());
         db.insert(TABLE_USER, null, values);
         db.close();
     }
 
     public User getUser(String email) {
-       SQLiteDatabase db = this.getReadableDatabase();
+        //SQLiteDatabase db = this.getReadableDatabase();
         User user = new User();
         user.setName("");
-        Cursor  cursor = db.rawQuery("select * from "+TABLE_USER+" where " + COLUMN_USER_EMAIL + "=" + email + "", null);
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selection = COLUMN_USER_EMAIL + " = ?";
+        String[] selectionArgs = {email};
+        Cursor cursor = db.query(TABLE_USER, null, selection,
+                selectionArgs, null, null, null);
+        // Cursor  cursor = db.rawQuery("select * from "+TABLE_USER+" where " + COLUMN_USER_PASSWORD+ "=" + email + "", null);
 
-        if( cursor.moveToFirst()) {
-
-
-           user.setId(Integer.parseInt(cursor.getString(0)));
-           user.setName(cursor.getString(1));
-           user.setEmail(cursor.getString(2));
-           user.setPassword(cursor.getString(3));
-           return user;
-       }
-       return user;
+        if (cursor.moveToFirst()) {
+            user.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_USER_ID))));
+            user.setName(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NAME)));
+            user.setEmail(cursor.getString(cursor.getColumnIndex(COLUMN_USER_EMAIL)));
+            user.setuName(cursor.getString(cursor.getColumnIndex(COLUMN_USER_UNAME)));
+            user.setPhone(cursor.getString(cursor.getColumnIndex(COLUMN_USER_PHONE)));
+            user.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_USER_PASSWORD)));
+            return user;
+        }
+        return user;
     }
 
     public List<User> getAllUsers() {
-        String[] columns = {
-                COLUMN_USER_ID,
-                COLUMN_USER_EMAIL,
-                COLUMN_USER_NAME,
-                COLUMN_USER_PASSWORD
-        };
-
-        String sortOrder =
-                COLUMN_USER_NAME + " ASC";
+             String sortOrder =
+                COLUMN_USER_ID + " ASC";
         List<User> userList = new ArrayList<User>();
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_USER,
-                columns, null, null, null, null, sortOrder);
+                null, null, null, null, null, sortOrder);
         if (cursor.moveToFirst()) {
             do {
                 User user = new User();
                 user.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_USER_ID))));
                 user.setName(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NAME)));
                 user.setEmail(cursor.getString(cursor.getColumnIndex(COLUMN_USER_EMAIL)));
+                user.setuName(cursor.getString(cursor.getColumnIndex(COLUMN_USER_UNAME)));
+                user.setuName(cursor.getString(cursor.getColumnIndex(COLUMN_USER_PHONE)));
                 user.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_USER_PASSWORD)));
 
                 userList.add(user);
@@ -105,6 +110,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_USER_NAME, user.getName());
         values.put(COLUMN_USER_EMAIL, user.getEmail());
+        values.put(COLUMN_USER_UNAME, user.getuName());
+        values.put(COLUMN_USER_PHONE, user.getPhone());
         values.put(COLUMN_USER_PASSWORD, user.getPassword());
 
         // updating row
@@ -112,6 +119,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 new String[]{String.valueOf(user.getId())});
         db.close();
     }
+
+
 
     public void deleteUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -128,15 +137,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public boolean checkUser(String email) {
+    public boolean checkUserExistence(String email, String uName) {
         String[] columns = {
                 COLUMN_USER_ID
         };
         SQLiteDatabase db = this.getReadableDatabase();
-        String selection = COLUMN_USER_EMAIL + " = ?";
-        String[] selectionArgs = {email};
+        String selection = COLUMN_USER_EMAIL + " = ?" + " AND " + COLUMN_USER_PASSWORD + " = ?";
+        String[] selectionArgs = {email,uName};
         Cursor cursor = db.query(TABLE_USER, columns, selection,
-                selectionArgs, null, null, null);
+              selectionArgs, null, null, null);
         int cursorCount = cursor.getCount();
         cursor.close();
         db.close();

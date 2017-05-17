@@ -9,13 +9,15 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
-
-import java.util.List;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
     TextView tvShow, tvDataBase;
-    Button btLogout, btDetails;
+    Button btLogout;
+    ImageButton btMore,btRoot;
     SharedPreferences prefs;
     DatabaseHandler databaseHandler = new DatabaseHandler(this);
     String SaveUName, SavePassword;
@@ -25,30 +27,37 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tvShow = (TextView) findViewById(R.id.tvShow);
-        btDetails = (Button) findViewById(R.id.btDetails);
+        btMore = (ImageButton) findViewById(R.id.btMore);
+        btRoot = (ImageButton) findViewById(R.id.btRoot);
         btLogout = (Button) findViewById(R.id.btLogout);
         tvDataBase = (TextView) findViewById(R.id.tvDataBase);
-        List<User> users = databaseHandler.getAllUsers();
-        StringBuilder user = new StringBuilder();
+
         prefs = getSharedPreferences("inUser", MODE_PRIVATE);
         SaveUName = String.valueOf(prefs.getString("uName", "a"));
         SavePassword = String.valueOf(prefs.getString("pass", "a"));
         tvShow.setText("Welcome . . " + SaveUName);
-        for (User cn : users) {
-            user.append("Id: " + cn.getId() + " ,Name: "
-                    + cn.getName() + " ,Phone: " + cn.getEmail() + "\n");
-            tvDataBase.setText(user);
-        }
         if (SaveUName.equals("a") || SavePassword.equals("a")) {
             Intent intent = new Intent(MainActivity.this, Register.class);
-
             startActivity(intent);
         }
-        btDetails.setOnClickListener(new View.OnClickListener() {
+
+        User user = databaseHandler.getUser(SaveUName);
+        tvDataBase.setText("ID: " + user.getId()
+                + "\nName: " + user.getName()
+                + "\nEmail: " + user.getEmail()
+                + "\nUser Name: " + user.getuName()
+                + "\nPhone: " + user.getPhone());
+        btMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               User user = databaseHandler.getUser(SaveUName);
-                tvShow.setText("Welcome " + user.getName().toString());
+                menuDialog();
+            }
+        });
+        btRoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,UserList.class);
+                startActivity(intent);
             }
         });
         btLogout.setOnClickListener(new View.OnClickListener() {
@@ -101,4 +110,75 @@ public class MainActivity extends Activity {
         dialog.show();
     }
 
+    private void deleteAccount(String email) {
+        SharedPreferences.Editor editor = prefs.edit();
+        databaseHandler.deleteUser(email);
+        editor.putString("uName", "a");
+        editor.putString("pass", "a");
+        editor.commit();
+        Intent intent = new Intent(MainActivity.this, Register.class);
+        startActivity(intent);
+        Toast.makeText(MainActivity.this, "Account Deleted", Toast.LENGTH_SHORT).show();
+
+    }
+
+    private void updateAccount(final String email) {
+        final User user = databaseHandler.getUser(email);
+        final Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.update);
+        final EditText etName = (EditText) dialog.findViewById(R.id.etNameChange);
+        final EditText etEmail = (EditText) dialog.findViewById(R.id.etEmailChange);
+        final EditText etUName = (EditText) dialog.findViewById(R.id.etUNameChange);
+        final EditText etPhone = (EditText) dialog.findViewById(R.id.etPhoneChange);
+        Button btDone = (Button) dialog.findViewById(R.id.btDone);
+        //EditText etPassword = (EditText) dialog.findViewById(R.id.etPasswordChange);
+
+        etName.setText(user.getName());
+        etEmail.setText(user.getEmail());
+        etUName.setText(user.getuName());
+        etPhone.setText(user.getPhone());
+        //etEmail.setText(user.getPassword());
+        btDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                user.setName(etName.getText().toString().trim());
+                user.setEmail(etEmail.getText().toString().trim());
+                user.setuName(etUName.getText().toString().trim());
+                user.setPhone(etPhone.getText().toString().trim());
+                databaseHandler.updateUser(user);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("uName", etEmail.getText().toString());
+                editor.commit();
+                Toast.makeText(MainActivity.this,"Changes Saved",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                MainActivity.this.recreate();
+            }
+        });
+
+
+        dialog.show();
+    }
+
+    private void menuDialog() {
+        final Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.menu);
+        Button btDel = (Button) dialog.findViewById(R.id.btDel);
+        Button btUpdate = (Button) dialog.findViewById(R.id.btUpdate);
+        btDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAccount(SaveUName);
+                dialog.dismiss();
+            }
+        });
+        btUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateAccount(SaveUName);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
 }

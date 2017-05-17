@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#DD333333"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Edit Your Profile"
+        android:textColor="@color/colorTextWhite"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/etNameChange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:hint="name"
+        android:padding="5dp"
+        android:textColor="@color/colorAccent"
+        android:textColorHint="@color/colorTextWhite"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/etEmailChange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:hint="email"
+        android:padding="5dp"
+        android:textColor="@color/colorAccent"
+        android:textColorHint="@color/colorTextWhite"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/etUNameChange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:hint="user name"
+        android:padding="5dp"
+        android:textColor="@color/colorAccent"
+        android:textColorHint="@color/colorTextWhite"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/etPhoneChange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:hint="phone number"
+        android:padding="5dp"
+        android:textColor="@color/colorAccent"
+        android:textColorHint="@color/colorTextWhite"
+        android:textSize="25sp" />
+
+    <!--<EditText
+        android:id="@+id/etPasswordChange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:hint="password"
+        android:padding="5dp"
+        android:textColor="@color/colorAccent"
+        android:textColorHint="@color/colorTextWhite"
+        android:textSize="25sp" />-->
+    <Button
+        android:id="@+id/btDone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:background="@android:color/holo_blue_light"
+        android:padding="5dp"
+        android:text="Done .. !"
+        android:textSize="25sp" />
+
+</LinearLayout>
