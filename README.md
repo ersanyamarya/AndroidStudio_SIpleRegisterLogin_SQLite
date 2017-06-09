@@ -4,6 +4,7 @@
 >Registration Page
 >
 >Login Dialog
+
 >Exit Control
 >SQLite Database
 >Retains logged user
