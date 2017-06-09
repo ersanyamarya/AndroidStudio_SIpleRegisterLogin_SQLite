@@ -2,10 +2,10 @@
 #### Simple Login And Registration app using local DataBase
 
 > Registration Page
-Login Dialog
-Exit Control
-SQLite Database
-Retains logged user
+> Login Dialog
+> Exit Control
+> SQLite Database
+> Retains logged user
 
 * Author: Sanyam Arya
 * ersanyamarya@gmail.com
